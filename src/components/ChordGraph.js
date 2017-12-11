@@ -85,7 +85,7 @@ class ChordGraph extends Component {
     return (
       <div>
         <div style={{ position: 'fixed' }}>
-          <div style={{ fontFamily: 'menlo', textAlign: 'center' }}>
+          <div style={{ marginTop: '1em', fontFamily: 'menlo', textAlign: 'center' }}>
             {this.props.log}
           </div>
           <br/>
