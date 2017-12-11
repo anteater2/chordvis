@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Graph from 'react-graph-vis';
+import { Map, List } from 'immutable';
 
 import log from './log.js';
 
@@ -49,7 +50,7 @@ var options = {
         color: "#000000"
     },
     interaction: {
-      dragNodes: false
+      dragNodes: true
     }
 };
 
@@ -67,6 +68,10 @@ class ChordGraph extends Component {
 
   parseLog = async (line) => {
     try {
+      if (line === 'done') {
+        this.props.handleChangeLog('DONE');
+        return true;
+      }
       const created = createRegex.exec(line);
       if (created) {
         this.props.handleChangeLog(line);
@@ -80,7 +85,7 @@ class ChordGraph extends Component {
         this.props.handleChangeLog(line);
         await sleep(500);
         this.props.handleUpdateFinger(fingered[1], fingered[2]-1, fingered[3]);
-        await sleep(2000);
+        await sleep(500);
         return true;
       }
 
@@ -107,9 +112,13 @@ const mapStateToProps = ({ graph, log }) => {
 
   graph.entrySeq().forEach(([key, value]) => {
     nodes.push(new Node({ hash: key, ip: value.ip }));
-    value.fingers.forEach(finger => {
+
+    value.fingers.forEach((finger, i) => {
       if (finger !== null) {
-        edges.push({ from: key, to: finger })
+        edges.push({ from: key, to: finger, label: `${key}[${i+1}]`, smooth: {
+          enabled: true,
+          type: 'curvedCW',
+        }})
       }
     })
   });
