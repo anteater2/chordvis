@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Graph from 'react-graph-vis';
-import { Map, List } from 'immutable';
 
 import log from '../models/log.js';
 import { connect } from 'react-redux';
@@ -77,21 +76,19 @@ const mapStateToProps = ({ graph, log }) => {
   const nodes = [];
   const edges = [];
 
-  graph.entrySeq().forEach(([key, value]) => {
-    nodes.push(new Node({ hash: key, ip: value.ip, position: value.position }));
+  const edgeToFingerNo = new Map();
 
-    value.fingers.forEach((finger, i) => {
+  for (let [hash, node] of graph.entrySeq()) {
+    nodes.push(new Node({ hash, ip: node.ip, position: node.position }));
+
+    for (let i in node.fingers) {
+      const finger = node.fingers[i];
       if (finger !== null) {
-        edges.push({ from: key, to: finger, label: `${key}[${i+1}]`, smooth: {
-          enabled: true,
-          type: 'curvedCW',
-        }})
+        edges.push({ from: hash, to: finger, label: `${hash}[${i+1}]` });
       }
-    })
-  });
-
-  console.log(nodes, edges);
-
+    }
+  }
+  
   return { nodes, edges, log };
 }
 
