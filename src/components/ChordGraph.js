@@ -5,7 +5,7 @@ import { Map, List } from 'immutable';
 import log from '../models/log.js';
 import { connect } from 'react-redux';
 import { addNode, updateFinger, changeLog } from '../models/reducer';
-import { createRegex, fingerRegex, sleep } from '../models/utils';
+import { createRegex, fingerRegex, sleep, balancedMap } from '../models/utils';
 import Node from '../models/Node';
 
 var options = {
@@ -96,8 +96,8 @@ const mapStateToProps = ({ graph, log }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleAddNode: (hash, ip) => dispatch(addNode(hash, ip)),
-  handleUpdateFinger: (hash, fingerNo, pointsTo) => dispatch(updateFinger(hash, fingerNo, pointsTo)),
+  handleAddNode: (hash, ip) => dispatch(addNode(balancedMap.get(hash), ip)),
+  handleUpdateFinger: (hash, fingerNo, pointsTo) => dispatch(updateFinger(balancedMap.get(hash), fingerNo, balancedMap.get(pointsTo))),
   handleChangeLog: (log) => dispatch(changeLog(log)),
 });
 

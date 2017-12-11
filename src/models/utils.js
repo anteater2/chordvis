@@ -20,7 +20,7 @@ export const sleep = async (time) => {
 
 
 // Returns a map of hashes to other hashes so that they are all equidistant
-export const createHashMap = (log) => {
+const createHashMap = (log) => {
   // Return a list of all the hashes
   const getAllHashesFromLog = (log) => {
     const hashes = [];
@@ -42,3 +42,5 @@ export const createHashMap = (log) => {
   }
   return map;
 }
+
+export const balancedMap = createHashMap(log);
