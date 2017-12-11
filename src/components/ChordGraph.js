@@ -78,7 +78,7 @@ const mapStateToProps = ({ graph, log }) => {
   const edges = [];
 
   graph.entrySeq().forEach(([key, value]) => {
-    nodes.push(new Node({ hash: key, ip: value.ip }));
+    nodes.push(new Node({ hash: key, ip: value.ip, position: value.position }));
 
     value.fingers.forEach((finger, i) => {
       if (finger !== null) {
@@ -96,8 +96,8 @@ const mapStateToProps = ({ graph, log }) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  handleAddNode: (hash, ip) => dispatch(addNode(balancedMap.get(hash), ip)),
-  handleUpdateFinger: (hash, fingerNo, pointsTo) => dispatch(updateFinger(balancedMap.get(hash), fingerNo, balancedMap.get(pointsTo))),
+  handleAddNode: (hash, ip) => dispatch(addNode({ position: balancedMap.get(hash), hash, ip })),
+  handleUpdateFinger: (hash, fingerNo, pointsTo) => dispatch(updateFinger({ hash, fingerNo, pointsTo })),
   handleChangeLog: (log) => dispatch(changeLog(log)),
 });
 
