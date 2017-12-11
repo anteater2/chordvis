@@ -3,42 +3,10 @@ import Graph from 'react-graph-vis';
 import { Map, List } from 'immutable';
 
 import log from '../models/log.js';
-
 import { connect } from 'react-redux';
 import { addNode, updateFinger, changeLog } from '../models/reducer';
-
-const SCALE = 300;
-const MAX_HASH = 2**10;
-
-const createRegex =
-  /[\w*|/]* [\w*|:]* \[NODE \d*\] Keyspace position (\d*) was derived from address ([\d*|.|:]*)/;
-const fingerRegex =
-  /[\d|/]* [\d|:]* \[NODE (\d*)\] Updating finger (\d*) \(key \d*\) of \d* to point to node [\d|.|:]* \(key (\d*)\)/;
-
-const sleep = async (time) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => { resolve() }, time)
-  });
-}
-
-function hashToCoords(hash, maxHash, scale) {
-  const angle = hash/maxHash * 2*Math.PI;
-  const [x, y] = [scale*Math.cos(angle), scale*Math.sin(angle)];
-  return [x, y];
-}
-
-class Node {
-  constructor({ hash, ip }, maxHash = MAX_HASH) {
-    this.id = hash
-    this.hash = hash;
-    [this.x, this.y] = hashToCoords(hash, maxHash, SCALE);
-    this.label = `${hash} ${ip}`;
-    this.physics = false;
-    this.widthConstraint = {
-      minimum: 10
-    }
-  }
-}
+import { createRegex, fingerRegex, sleep } from '../models/utils';
+import Node from '../models/Node';
 
 var options = {
   autoResize: true,
