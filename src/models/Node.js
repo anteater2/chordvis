@@ -1,11 +1,11 @@
-const SCALE = 300;
-const MAX_HASH = 2**10;
+import { SCALE, MAX_HASH } from './config';
 
-export function hashToCoords(hash, maxHash, scale) {
-  const angle = hash/maxHash * 2*Math.PI;
-  const [x, y] = [scale*Math.cos(angle), scale*Math.sin(angle)];
+// Map a hash to to proper coordinates
+const hashToCoords = (hash) => {
+  const angle = hash/MAX_HASH * 2*Math.PI;
+  const [x, y] = [SCALE*Math.cos(angle), SCALE*Math.sin(angle)];
   return [x, y];
-}
+};
 
 export default class Node {
   constructor({ hash, ip }, maxHash = MAX_HASH) {
