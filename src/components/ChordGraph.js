@@ -2,11 +2,10 @@ import React, { Component } from 'react';
 import Graph from 'react-graph-vis';
 import { Map, List } from 'immutable';
 
-import log from './log.js';
+import log from '../log.js';
 
 import { connect } from 'react-redux';
-import { addNode, updateFinger, changeLog } from './reducer';
-import { createConnect } from 'react-redux/lib/connect/connect';
+import { addNode, updateFinger, changeLog } from '../reducer';
 
 const SCALE = 300;
 const MAX_HASH = 2**10;

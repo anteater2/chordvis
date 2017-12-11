@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import ChordGraph from './ChordGraph';
+import ChordGraph from './components/ChordGraph';
 
 import './App.css';
 
