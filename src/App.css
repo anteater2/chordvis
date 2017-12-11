@@ -1,6 +1,8 @@
 div {
   height: 100% !important;
+  width: 100% !important;
 }
+
 .App {
   height: 100% !important;
 }

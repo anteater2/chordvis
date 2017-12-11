@@ -85,11 +85,13 @@ class ChordGraph extends Component {
     return (
       <div>
         <div style={{ position: 'fixed' }}>
-          {this.props.log}
+          <div style={{ fontFamily: 'menlo', textAlign: 'center' }}>
+            {this.props.log}
+          </div>
           <br/>
           filter: {this.state.filter}
         </div>
-        <Graph height="100%" graph={{nodes, edges: filteredEdges }} options={options} events={this.events}/>
+        <Graph height="100%" graph={{ nodes, edges: filteredEdges }} options={options} events={this.events}/>
       </div>
     );
   }
