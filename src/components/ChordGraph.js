@@ -76,21 +76,36 @@ const mapStateToProps = ({ graph, log }) => {
   const nodes = [];
   const edges = [];
 
-  const edgeToFingerNo = new Map();
 
   for (let [hash, node] of graph.entrySeq()) {
+    const edgeToFingerNo = new Map();
     nodes.push(new Node({ hash, ip: node.ip, position: node.position }));
 
     const fingerArray = node.fingers.toArray();
     for (let i in fingerArray) {
+      i = Number.parseInt(i);
       const finger = fingerArray[i];
       if (finger !== null) {
-        edges.push({ from: hash, to: finger, label: `${hash}[${Number.parseInt(i)+1}]` });
+        if (edgeToFingerNo.has(finger)) {
+          edgeToFingerNo.get(finger).push(i+1);
+        } else {
+          edgeToFingerNo.set(finger, [i+1]);
+        }
       }
+    }
+    for (let [finger, iArr] of edgeToFingerNo) {
+      edges.push({
+        from: hash,
+        to: finger,
+        label: `${hash}[${iArr.join(',')}]`,
+        smooth: {
+          enabled: true,
+          type: 'curvedCW'
+        }
+      });
     }
   }
 
-  console.log(edges);
 
   return { nodes, edges, log };
 }
