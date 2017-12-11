@@ -81,14 +81,17 @@ const mapStateToProps = ({ graph, log }) => {
   for (let [hash, node] of graph.entrySeq()) {
     nodes.push(new Node({ hash, ip: node.ip, position: node.position }));
 
-    for (let i in node.fingers) {
-      const finger = node.fingers[i];
+    const fingerArray = node.fingers.toArray();
+    for (let i in fingerArray) {
+      const finger = fingerArray[i];
       if (finger !== null) {
-        edges.push({ from: hash, to: finger, label: `${hash}[${i+1}]` });
+        edges.push({ from: hash, to: finger, label: `${hash}[${Number.parseInt(i)+1}]` });
       }
     }
   }
-  
+
+  console.log(edges);
+
   return { nodes, edges, log };
 }
 
