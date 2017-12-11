@@ -1222,7 +1222,6 @@ const log = `
 2017/12/09 17:25:30 [NODE 530] GetKey Test Key 500 (HASH 45): success
 2017/12/09 17:25:30 [NODE 530] GetKey Test Key 71 (HASH 74): success
 success
-
 `
 
 export default log;
