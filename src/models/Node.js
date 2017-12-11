@@ -11,7 +11,7 @@ export default class Node {
   constructor({ hash, position, ip }, maxHash = MAX_HASH) {
     [this.id, this.hash] = [hash, hash];
     [this.x, this.y] = hashToCoords(position, maxHash, SCALE);
-    this.label = `${hash} ${ip}`;
+    this.label = `${hash}`;
     this.physics = false;
     this.widthConstraint = {
       minimum: 10

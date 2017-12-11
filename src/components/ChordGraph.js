@@ -7,7 +7,7 @@ import { addNode, updateFinger, changeLog } from '../models/reducer';
 import { createRegex, fingerRegex, sleep, balancedMap } from '../models/utils';
 import Node from '../models/Node';
 
-var options = {
+const options = {
   autoResize: true,
     layout: {
         hierarchical: false
@@ -20,7 +20,23 @@ var options = {
     }
 };
 
+
 class ChordGraph extends Component {
+  state = {
+    filter: null,
+  }
+
+  events = {
+    selectNode: ({ nodes }) => {
+      const node = nodes[0];
+      this.setState({ filter: node });
+    },
+
+    deselectNode: () => {
+      this.setState({ filter: null });
+    }
+  }
+
   async componentDidMount() {
     const lines = log.split('\n');
     try {
@@ -63,10 +79,17 @@ class ChordGraph extends Component {
 
   render() {
     const { nodes, edges } = this.props;
+    const filteredEdges = this.state.filter === null ?
+      edges :
+      edges.filter(({ from }) => from === this.state.filter);
     return (
       <div>
-        <div style={{ position: 'fixed' }}>{this.props.log}</div>
-        <Graph height="100%" graph={{nodes, edges}} options={options}/>
+        <div style={{ position: 'fixed' }}>
+          {this.props.log}
+          <br/>
+          filter: {this.state.filter}
+        </div>
+        <Graph height="100%" graph={{nodes, edges: filteredEdges }} options={options} events={this.events}/>
       </div>
     );
   }
